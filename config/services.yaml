@@ -62,3 +62,7 @@ services:
     Model\Location\CreateLocationHandler:
         tags: 
             - { name: tactician.handler, typehints: true }
+
+    Model\Location\ToggleLocationStatusHandler:
+        tags:
+            - { name: tactician.handler, typehints: true }

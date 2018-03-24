@@ -27,6 +27,11 @@ class Location
     private $country;
 
     /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $status;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $dateCreated;
@@ -55,10 +60,20 @@ class Location
     {
         return $this->country;
     }
- 
+
     public function setCountry(string $country) : void
     {
         $this->country = $country;
+    }
+
+    public function getStatus() : string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status) : void
+    {
+        $this->status = $status;
     }
  
     public function getDateCreated()

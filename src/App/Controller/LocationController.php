@@ -7,6 +7,9 @@ use League\Tactician\CommandBus;
 use Model\Location\CreateLocation;
 use Model\Location\LocationResponse;
 use Model\Entity\Location;
+use Model\Location\LocationStatus;
+use Model\Location\ToggleLocationStatus;
+use Model\Location\ToggleLocationStatusConstraints;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,6 +65,32 @@ class LocationController extends Controller
 
         $result = $this->commandBus->handle(
             new CreateLocation($data['city'], $data['country'])
+        );
+
+        return new JsonResponse($result->serialize());
+    }
+
+    /**
+     * @SWG\Response(
+     *     response=201,
+     *     description="Toggle location status",
+     *     @Model(type=LocationResponse::class)
+     * )
+     */
+    public function toggle($id, Request $request)
+    {
+        $data = $request->request->all();
+
+        $this->validator->validate(
+            $data,
+            new ToggleLocationStatusConstraints()
+        );
+
+        $result = $this->commandBus->handle(
+            new ToggleLocationStatus(
+                $id,
+                new LocationStatus($data['status'])
+            )
         );
 
         return new JsonResponse($result->serialize());
